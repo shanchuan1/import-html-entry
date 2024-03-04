@@ -161,7 +161,7 @@ export function execScripts(entry, scripts, proxy = window, opts = {}) {
 		}, afterExec = () => {
 		},
 		scopedGlobalVariables = [],
-	} = opts;
+	} = opts;git
 
 	return getExternalScripts(scripts, fetch)
 		.then(scriptsText => {
@@ -174,6 +174,7 @@ export function execScripts(entry, scripts, proxy = window, opts = {}) {
 
 				afterExec(inlineScript, scriptSrc);
 			};
+
 
 			function exec(scriptSrc, inlineScript, resolve) {
 
@@ -225,6 +226,7 @@ export function execScripts(entry, scripts, proxy = window, opts = {}) {
 				}
 			}
 
+			/* 该函数用于按顺序执行所有脚本。它会递归调用自身，并在每次调用中执行一个脚本。在执行完最后一个脚本后，会通过 resolve 函数解析 Promise。 */
 			function schedule(i, resolvePromise) {
 
 				if (i < scripts.length) {
