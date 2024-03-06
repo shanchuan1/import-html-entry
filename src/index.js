@@ -88,7 +88,7 @@ export function getExternalStyleSheets(styles, fetch = defaultFetch) {
 		},
 	));
 }
-
+/* 拉取对应地址的js文件，并解析成string */
 // for prefetch
 export function getExternalScripts(scripts, fetch = defaultFetch) {
 
@@ -161,15 +161,17 @@ export function execScripts(entry, scripts, proxy = window, opts = {}) {
 		}, afterExec = () => {
 		},
 		scopedGlobalVariables = [],
-	} = opts;git
+	} = opts;
 
 	return getExternalScripts(scripts, fetch)
 		.then(scriptsText => {
+			/* scriptsText: js文件的内容 : string[] */
 
 			const geval = (scriptSrc, inlineScript) => {
 				const rawCode = beforeExec(inlineScript, scriptSrc) || inlineScript;
 				const code = getExecutableScript(scriptSrc, rawCode, { proxy, strictGlobal, scopedGlobalVariables });
 
+				/* 执行代码 */
 				evalCode(scriptSrc, code);
 
 				afterExec(inlineScript, scriptSrc);
@@ -231,8 +233,9 @@ export function execScripts(entry, scripts, proxy = window, opts = {}) {
 
 				if (i < scripts.length) {
 					const scriptSrc = scripts[i];
+					/* scriptSrc: js文件的url地址 */
 					const inlineScript = scriptsText[i];
-
+					/* inlineScript：js文件的内容 ： string */
 					exec(scriptSrc, inlineScript, resolvePromise);
 					// resolve the promise while the last script executed and entry not provided
 					if (!entry && i === scripts.length - 1) {
